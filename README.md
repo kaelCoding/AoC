@@ -3,8 +3,7 @@
 Welcome to my **Advent of Code [2025]** solution repository!
 This is where I store the solutions, notes, and algorithms I use to overcome daily challenges.
 
-![Language](https://img.shields.io/badge/Language-C++%20%7C%20Python-blue?style=for-the-badge&logo=c%2B%2B)
-![Stars](https://img.shields.io/badge/Stars-12%20⭐-yellow?style=for-the-badge)
+![Language](https://img.shields.io/badge/Language-C++-blue?style=for-the-badge&logo=c%2B%2B)
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
 ## 📖 Introduction
@@ -13,7 +12,7 @@ This is where I store the solutions, notes, and algorithms I use to overcome dai
 
 In this project, I mainly use C++ to practice optimization thinking and data processing.
 
-## 🛠️ How to run code (How to run)
+## 🛠️ How to run code
 
 To test my solutions on your machine:
 
@@ -24,7 +23,13 @@ git clone https://github.com/kaelCoding/AoC.git
 cd AoC
 ```
 
-**2. Run specific date assignment:**
+**2. Create input file(Get input on adventofcode.com):**
+
+```bash
+touch input.txt
+```
+
+**3. Run specific date assignment:**
 
 ```bash
 cd day1
