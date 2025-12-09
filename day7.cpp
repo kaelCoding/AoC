@@ -5,7 +5,10 @@
  * Language: C++
 */
 #include <bits/stdc++.h>
+
 using namespace std;
+
+typedef long long ll;
 
 int main(){
     ifstream inputFile("input.txt");
@@ -17,39 +20,79 @@ int main(){
     while(getline(inputFile, line)){
         grid.push_back(line);
     }
-
     inputFile.close();
 
-    int result = 0;
-    vector<int> tachyonIndexs; 
-    tachyonIndexs.push_back(grid[0].size()/2);
-    grid[1][grid[0].size()/2] = '|';
+    // part 1
+    // vector<int> tachyonIndexs; 
+    // tachyonIndexs.push_back(grid[0].size()/2);
+    // grid[1][grid[0].size()/2] = '|';
+    ll result = 0;
+    
+    int rowSize = grid.size();
+    int colSize = grid[0].size();
+    ll counts[rowSize][colSize] = {};
+    counts[1][colSize/2] = 1;
 
-    for(int i=2; i<grid.size(); i++){
-        vector<int> newIndexs;
-        vector<int> oldIndexs;
-
-        for(int index=0; index<tachyonIndexs.size(); index++){
-            int indexCurrent = tachyonIndexs[index];
-
-            if(grid[i][indexCurrent] == '^' && grid[i-1][indexCurrent] == '|'){
-                newIndexs.push_back(indexCurrent-1);
-                newIndexs.push_back(indexCurrent+1);
-                oldIndexs.push_back(indexCurrent);
-                
-                grid[i][indexCurrent-1] = '|';
-                grid[i][indexCurrent+1] = '|';
-
-                result++;
-            } else grid[i][indexCurrent] = '|';
+    for(int i=1; i<rowSize-1; i++){
+        for(int j=0; j<colSize; j++){
+            if(counts[i][j] > 0){
+                if(grid[i][j] == '.'){
+                    counts[i+1][j] += counts[i][j];
+                } else{
+                    counts[i+1][j-1] += counts[i][j];
+                    counts[i+1][j+1] += counts[i][j];
+                }
+            }
         }
-
-        for(auto& p : oldIndexs) tachyonIndexs.erase(remove(tachyonIndexs.begin(), tachyonIndexs.end(), p), tachyonIndexs.end());
-        for(auto& p : newIndexs) tachyonIndexs.push_back(p);
-
-        sort(tachyonIndexs.begin(), tachyonIndexs.end());
-        tachyonIndexs.erase(unique(tachyonIndexs.begin(), tachyonIndexs.end()), tachyonIndexs.end());
     }
+
+    for(int i=0; i<colSize; i++){
+        result += counts[rowSize-1][i];
+    }
+    // exmple part 2
+    // .......S.......
+    // .......|....... 1
+    // ......|^|...... 1
+    // ......|.|...... 1 1
+    // .....|^|^|..... 1 1
+    // .....|.|.|..... 1 2 1
+    // ....|^|^|^|.... 1 2 1
+    // ....|.|.|.|.... 1 3 3 1
+    // ...|^|^|||^|... 1 3 3 1
+    // ...|.|.|||.|... 1 4 3 3 1 1
+    // ..|^|^|||^|^|.. 1 4 3 3 1 1
+    // ..|.|.|||.|.|.. 1 5 4 3 4 2 1
+    // .|^|||^||.||^|. 1 5 4 3 4 2 1
+    // .|.|||.||.||.|. 1 1 5 4 7 4 2 1 1
+    // |^|^|^|^|^|||^| 1 1 5 4 7 4 2 1 1
+    // |.|.|.|.|.|||.| 1 2 10 11 11 2 1 1 1
+
+    // part 1
+    // for(int i=2; i<grid.size(); i++){
+    //     vector<int> newIndexs;
+    //     vector<int> oldIndexs;
+
+    //     for(int index=0; index<tachyonIndexs.size(); index++){
+    //         int indexCurrent = tachyonIndexs[index];
+
+    //         if(grid[i][indexCurrent] == '^' && grid[i-1][indexCurrent] == '|'){
+    //             newIndexs.push_back(indexCurrent-1);
+    //             newIndexs.push_back(indexCurrent+1);
+    //             oldIndexs.push_back(indexCurrent);
+                
+    //             grid[i][indexCurrent-1] = '|';
+    //             grid[i][indexCurrent+1] = '|';
+
+    //             result++;
+    //         } else grid[i][indexCurrent] = '|';
+    //     }
+
+    //     for(auto& p : oldIndexs) tachyonIndexs.erase(remove(tachyonIndexs.begin(), tachyonIndexs.end(), p), tachyonIndexs.end());
+    //     for(auto& p : newIndexs) tachyonIndexs.push_back(p);
+
+    //     sort(tachyonIndexs.begin(), tachyonIndexs.end());
+    //     tachyonIndexs.erase(unique(tachyonIndexs.begin(), tachyonIndexs.end()), tachyonIndexs.end());
+    // }
 
     cout << result << endl;
 
