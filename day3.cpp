@@ -1,11 +1,23 @@
-#include <bits/stdc++.h>
+/*
+ * Advent of Code 2025
+ * Day 3: Lobby
+ * Author: Kael
+ * Language: C++
+*/
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <vector>
+#include <algorithm>
+
 using namespace std;
 
-int turnBattery (string s) {
+int turnBattery (string s){
   int max1 = s[0] - '0';
   int index = 0;
-  for (int i=1; i<s.size()-1; i++) {
-    if (s[i] - '0' > max1) {
+
+  for(int i=1; i < s.size()-1; i++){
+    if(s[i] - '0' > max1){
       max1 = s[i] - '0';
       index = i;
     }
@@ -14,16 +26,13 @@ int turnBattery (string s) {
   int max2 = s[index+1] - '0';
   if (s.size() - index == 2) return max1*10+max2;
 
-  for (int i=index+2; i<s.size(); i++) {
-    if (s[i] - '0' > max2) {
-      max2 = s[i] - '0';
-    }
+  for(int i=index+2; i<s.size(); i++){
+    if(s[i] - '0' > max2) max2 = s[i] - '0';
   }
 
   return max1*10+max2;
 }
 
-//987654321111111
 long long turnBattery2 (string s) {
   int maxIndex = s.size() - 12;
   int max1 = s[0] - '0';
@@ -52,7 +61,8 @@ long long turnBattery2 (string s) {
   return stoll(newString);
 }
 
-long long turnBattery2AI(string s) {
+// Monotonic Stack - AI code
+long long findMaxSequence(string s) {
     int k = 12; 
     string result = "";
     int n = s.length();
@@ -70,18 +80,17 @@ long long turnBattery2AI(string s) {
 
 int main() {
   ifstream inputFile("input.txt");
-
   if (!inputFile.is_open()) return 1;
 
   long long result = 0;
   string number;
 
   while (inputFile >> number) {
-    result += turnBattery2AI(number); 
+    result += turnBattery2(number); 
   }
 
   cout << result << endl;
-
   inputFile.close();
+
   return 0;
 }

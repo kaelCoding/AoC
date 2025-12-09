@@ -1,35 +1,45 @@
-#include <bits/stdc++.h>
+/*
+ * Advent of Code 2025
+ * Day 1: Secret Entrance
+ * Author: Kael
+ * Language: C++
+*/
+#include <iostream>
+#include <fstream>
+#include <cmath>    
+#include <vector>
+
 using namespace std;
 
-int main() {
+int main(){
   ifstream inputFile("input.txt");
+  if(!inputFile.is_open()) return 1;
 
-  if (!inputFile.is_open()) return 1;
-
-  int count_begin = 50;
-  int pass = 0;
-  char direction;
+  int current_pos = 50;
+  int total_passes = 0;
   int steps;
+  char direction;
 
-  while (inputFile >> direction >> steps) {
-    if (direction == 'R') {
-      pass += (int) (count_begin + steps) / 100;
-      count_begin = (count_begin + steps) % 100;
-    } else {
-      if (count_begin <= steps && count_begin != 0) {
-        pass += (int) abs(count_begin - steps) / 100 + 1;
+  while(inputFile >> direction >> steps){
+    if(direction == 'R'){
+      total_passes += (current_pos + steps) / 100;
+      current_pos = (current_pos + steps) % 100;
+    } else{
+      if(current_pos <= steps && current_pos != 0){
+        total_passes += abs(current_pos - steps) / 100 + 1;
       }
 
-      if (count_begin == 0 && steps >= 100) {
-        pass += (int) steps/100;
+      if(current_pos == 0 && steps >= 100){
+        total_passes += steps / 100;
       }
 
-      count_begin = ((count_begin - steps) % 100 + 100) % 100;
+      // ((a % n) + n) % n
+      current_pos = ((current_pos - steps) % 100 + 100) % 100;
     }
   }
 
-  cout << pass << endl;
+  cout << total_passes << endl;
   inputFile.close();
+
   return 0;
 }
-

@@ -1,4 +1,15 @@
-#include <bits/stdc++.h>
+/*
+ * Advent of Code 2025
+ * Day 6: Trash Compactor
+ * Author: Kael
+ * Language: C++
+*/
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <string>
+#include <cctype>
+
 using namespace std;
 
 typedef long long ll;
@@ -11,11 +22,14 @@ int main(){
     // vector<vector<ll>> numList;
     // vector<char> operators;
     string line;
-
     vector<string> grid;
     string operatorLine;
 
     while(getline(inputFile, line)){
+        if (line.find('*') != string::npos || line.find('+') != string::npos) {
+            operatorLine = line;
+        } else grid.push_back(line);
+
         // part1
         // stringstream ss(line);
         // ss >> ws;
@@ -23,7 +37,6 @@ int main(){
         // if(isdigit(firstChar)){
         //     vector<ll> row;
         //     ll num;
-
         //     while(ss >> num){
         //         row.push_back(num);
         //     }
@@ -34,29 +47,23 @@ int main(){
         //         operators.push_back(op);
         //     }
         // }
-
-        if (line.find('*') != string::npos || line.find('+') != string::npos) {
-            operatorLine = line;
-        } else {
-            grid.push_back(line);
-        }
     }
 
     inputFile.close();
     
+    // part 1
     // ll rows = numList.size();
     ll result = 0;
-
     int maxSize = operatorLine.size();
-    vector<ll> currentNumbers;
     char currentOp = ' ';
+    vector<ll> currentNumbers;
 
     for(ll col=0; col<maxSize; col++){
         string colNumStr = "";
         bool hasDigit = false;
 
-        for (const string& rowStr : grid) {
-            if (isdigit(rowStr[col])) {
+        for(const string& rowStr : grid){
+            if(isdigit(rowStr[col])){
                 colNumStr += rowStr[col];
                 hasDigit = true;
             }
@@ -66,10 +73,7 @@ int main(){
             currentOp = operatorLine[col];
         }
 
-        if(hasDigit){
-            currentNumbers.push_back(stoll(colNumStr));
-        }
-
+        if(hasDigit) currentNumbers.push_back(stoll(colNumStr));
         bool isEmptyCol = !hasDigit && (operatorLine[col] == ' ');
 
         if(isEmptyCol || col == maxSize-1){
@@ -77,11 +81,8 @@ int main(){
                 ll subTotal = currentNumbers[0];
 
                 for(int i=1; i<currentNumbers.size(); i++){
-                    if(currentOp == '+'){
-                        subTotal += currentNumbers[i];
-                    } else {
-                        subTotal *= currentNumbers[i];
-                    }
+                    if(currentOp == '+') subTotal += currentNumbers[i];
+                    else subTotal *= currentNumbers[i];
                 }
 
                 result += subTotal;
@@ -107,5 +108,6 @@ int main(){
     // }
 
     cout << result << endl;
+
     return 0;
 }
